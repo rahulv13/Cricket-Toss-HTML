@@ -180,12 +180,101 @@ button:active {
 }
 
 /* =========================================
+   HAMBURGER MENU TOGGLE BUTTON (START BUTTON)
+   ========================================= */
+.spin-menu-btn {
+  position: absolute;
+  right: max(16px, calc(var(--safe-right) + 12px));
+  bottom: max(16px, calc(var(--safe-bottom) + 12px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 12px rgba(56, 189, 248, 0.35);
+  cursor: pointer;
+  z-index: 35;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spin-menu-btn:hover {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: #38bdf8;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 16px rgba(56, 189, 248, 0.6);
+  transform: translateY(-1px);
+}
+
+.spin-menu-btn:active {
+  transform: scale(0.95);
+}
+
+.spin-menu-btn.open {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0f172a;
+  border-color: #38bdf8;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.85);
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 14px;
+  height: 11px;
+}
+
+.hamburger-icon .bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spin-menu-btn.open .bar-1 {
+  transform: translateY(4.5px) rotate(45deg);
+}
+
+.spin-menu-btn.open .bar-2 {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.spin-menu-btn.open .bar-3 {
+  transform: translateY(-4.5px) rotate(-45deg);
+}
+
+.spin-menu-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+/* =========================================
    CRICKET BOWLING SPIN CONTROL DOCK (RIGHT SIDE HUD)
    ========================================= */
 .spin-dock-right {
   position: absolute;
   right: max(44px, calc(var(--safe-right) + 40px));
-  bottom: max(16px, calc(var(--safe-bottom) + 12px));
+  bottom: max(62px, calc(var(--safe-bottom) + 52px));
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -196,10 +285,19 @@ button:active {
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  pointer-events: auto;
+  pointer-events: none;
+  opacity: 0;
   z-index: 25;
   user-select: none;
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transform: translateX(20px) translateY(10px) scale(0.92);
+  transform-origin: bottom right;
+  transition: opacity 0.24s cubic-bezier(0.4, 0, 0.2, 1), transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spin-dock-right.menu-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0) translateY(0) scale(1);
 }
 
 .spin-ball-hud-card {
@@ -359,16 +457,24 @@ button:active {
 .v-slider-container {
   position: absolute;
   right: max(12px, calc(var(--safe-right) + 8px));
-  bottom: max(16px, calc(var(--safe-bottom) + 12px));
+  bottom: max(62px, calc(var(--safe-bottom) + 52px));
   height: 132px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  pointer-events: auto;
+  pointer-events: none;
+  opacity: 0;
   z-index: 25;
   user-select: none;
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transform: translateX(16px);
+  transition: opacity 0.24s cubic-bezier(0.4, 0, 0.2, 1), transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.v-slider-container.menu-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
 }
 
 .v-slider-val-tag {
@@ -533,28 +639,88 @@ button:active {
     border-radius: 12px;
   }
 
-  .spin-dock-right {
-    right: max(38px, calc(var(--safe-right) + 34px));
-    bottom: max(12px, calc(var(--safe-bottom) + 8px));
-    padding: 8px 10px;
+  /* Android Mobile: Hamburger Toggle Button */
+  .spin-menu-btn {
+    right: max(10px, calc(var(--safe-right) + 6px));
+    bottom: max(10px, calc(var(--safe-bottom) + 6px));
+    padding: 7px 13px;
+    font-size: 10px;
     gap: 6px;
-    border-radius: 18px;
-    max-width: calc(100vw - 64px);
+  }
+
+  /* Android Mobile: Diagonal Spin Hub Layout */
+  .spin-dock-right {
+    right: max(10px, calc(var(--safe-right) + 6px));
+    bottom: max(52px, calc(var(--safe-bottom) + 46px));
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    border-radius: 20px;
+    padding: 8px 12px;
+    max-width: calc(100vw - 20px);
+    transform-origin: bottom right;
+    transform: translateX(20px) translateY(10px) scale(0.9);
+  }
+
+  .spin-dock-right.menu-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0) translateY(0) scale(1);
+  }
+
+  /* Diagonal Stepped Card: Ball + Meta Badge */
+  .spin-ball-hud-card {
+    align-self: flex-start;
+    gap: 8px;
+    padding-bottom: 2px;
+    transform: rotate(-2.5deg);
+    transform-origin: left center;
   }
 
   .spin-ball-canvas-wrap {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
   }
 
   .spin-ball-canvas {
-    width: 48px !important;
-    height: 48px !important;
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  /* Diagonal Cascade: Direction Pills */
+  .spin-dirs-row {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+    transform: rotate(-3.5deg);
+    transform-origin: right center;
+  }
+
+  .spin-dirs-row #spin-btn-left {
+    transform: translateY(-6px);
+  }
+
+  .spin-dirs-row #spin-btn-none {
+    transform: translateY(-2px);
+  }
+
+  .spin-dirs-row #spin-btn-right {
+    transform: translateY(2px);
+  }
+
+  /* Diagonal Cascade: Intensity Presets */
+  .spin-intensity-presets {
+    display: flex;
+    gap: 3px;
+    justify-content: flex-end;
+    transform: rotate(-2.5deg);
+    transform-origin: right center;
   }
 
   .frosted-pill-btn {
     padding: 5px 8px;
-    font-size: 9.5px;
+    font-size: 9px;
   }
 
   .spin-intensity-presets .frosted-pill-btn {
@@ -562,15 +728,24 @@ button:active {
     font-size: 8px;
   }
 
+  /* Vertical Slider on Android Mobile */
   .v-slider-container {
-    height: 112px;
-    right: max(8px, calc(var(--safe-right) + 6px));
-    bottom: max(12px, calc(var(--safe-bottom) + 8px));
+    height: 105px;
+    right: max(10px, calc(var(--safe-right) + 6px));
+    bottom: max(225px, calc(var(--safe-bottom) + 215px));
+    transform-origin: bottom right;
+    transform: translateX(16px);
+  }
+
+  .v-slider-container.menu-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
   }
 
   .v-slider-track {
     width: 14px;
-    height: 82px;
+    height: 76px;
   }
 
   .v-slider-thumb {
@@ -588,7 +763,7 @@ button:active {
     transform: none;
     font-size: 10px;
     padding: 5px 12px;
-    max-width: calc(100vw - 250px);
+    max-width: calc(100vw - 120px);
     letter-spacing: 0.2px;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -664,7 +839,7 @@ button:active {
       <div id="ui-overlay"></div>
     </div>
     <script>
-(function(){"use strict";var oa=document.createElement("style");oa.textContent=`*,*:before,*:after{box-sizing:border-box;margin:0;padding:0}:root{--safe-top: env(safe-area-inset-top, 0px);--safe-bottom: env(safe-area-inset-bottom, 0px);--safe-left: env(safe-area-inset-left, 0px);--safe-right: env(safe-area-inset-right, 0px)}html,body{width:100%;height:100%;height:100dvh;min-height:100%;overflow:hidden;background-color:#0f172a;color:#f0f0f0;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;overscroll-behavior:none;position:fixed;top:0;right:0;bottom:0;left:0}#app{position:relative;width:100vw;width:100dvw;height:100vh;height:100dvh;overflow:hidden;touch-action:none;overscroll-behavior:none}#canvas-container{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;touch-action:none;cursor:crosshair}#canvas-container canvas{display:block;width:100%!important;height:100%!important;touch-action:none}#ui-overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10}@keyframes popIn{0%{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}@keyframes pulseGlow{0%,to{box-shadow:0 0 10px #f59e0b4d}50%{box-shadow:0 0 20px #f59e0bb3}}button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}button:hover{filter:brightness(1.1);transform:translateY(-1px)}button:active{transform:translateY(1px)}.arcade-hud{position:absolute;top:max(12px,calc(var(--safe-top) + 6px));left:50%;transform:translate(-50%);display:flex;align-items:center;justify-content:space-between;gap:16px;width:auto;max-width:calc(100vw - 24px);padding:8px 20px;background:#0f172ae0;border:1px solid rgba(255,255,255,.16);border-radius:28px;box-shadow:0 8px 32px #00000080;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);-webkit-user-select:none;user-select:none;pointer-events:none;z-index:20;font-family:system-ui,-apple-system,sans-serif;transition:all .2s ease}.hud-divider{width:1px;height:22px;background:#ffffff26;flex-shrink:0}.power-meter{position:absolute;bottom:max(148px,calc(var(--safe-bottom) + 138px));left:50%;transform:translate(-50%);display:none;flex-direction:column;align-items:center;background:#0f172ae6;border:1px solid rgba(56,189,248,.35);border-radius:14px;padding:10px 18px;box-shadow:0 8px 24px #0000008c;pointer-events:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:20;transition:opacity .2s ease}.spin-dock-right{position:absolute;right:max(44px,calc(var(--safe-right) + 40px));bottom:max(16px,calc(var(--safe-bottom) + 12px));display:flex;flex-direction:column;gap:8px;background:#0f172ac7;border:1.5px solid rgba(255,255,255,.24);border-radius:22px;padding:10px 14px;box-shadow:0 12px 36px #0000008c,inset 0 1px 1px #fff3;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);pointer-events:auto;z-index:25;-webkit-user-select:none;user-select:none;transition:opacity .22s ease,transform .22s ease}.spin-ball-hud-card{display:flex;align-items:center;gap:10px;padding-bottom:2px}.spin-ball-canvas-wrap{position:relative;width:60px;height:60px;flex-shrink:0;display:flex;align-items:center;justify-content:center}.spin-ball-canvas{display:block;width:60px;height:60px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}.spin-hud-meta{display:flex;flex-direction:column;gap:3px;min-width:140px}.spin-hud-title{font-size:9px;font-weight:800;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase}.spin-badge-pill{font-size:10px;font-weight:800;padding:3px 9px;border-radius:9999px;background:#ffffff26;border:1.5px solid rgba(255,255,255,.35);color:#fff;letter-spacing:.5px;transition:all .2s ease;white-space:nowrap;text-align:center}.spin-intensity-subrow{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:800;color:#94a3b8}.spin-sub-label{font-size:8.5px;font-weight:800;color:#94a3b8;letter-spacing:.5px}.spin-pct-text{color:#38bdf8;font-family:monospace;font-size:11px;font-weight:900}.spin-desc-text{color:#f59e0b;font-size:8.5px;letter-spacing:.5px}.frosted-pill-row{display:flex;align-items:center;gap:6px}.frosted-pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:7px 13px;border-radius:9999px;background:#ffffff38;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,.45);color:#fff;font-family:system-ui,-apple-system,sans-serif;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;box-shadow:0 4px 14px #00000040,inset 0 1px 1px #ffffff59;cursor:pointer;transition:all .15s cubic-bezier(.4,0,.2,1);-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;flex:1}.frosted-pill-btn:hover{background:#ffffff59;border-color:#ffffffa6;transform:translateY(-1px);box-shadow:0 6px 18px #0000004d,inset 0 1px 2px #ffffff80}.frosted-pill-btn:active{transform:scale(.96)}.frosted-pill-btn.active{background:#ffffffeb;color:#0f172a;border-color:#38bdf8;box-shadow:0 0 16px #38bdf8cc,inset 0 1px 2px #ffffffe6;font-weight:900}.frosted-pill-btn.active .pill-arrow{color:#0284c7}.pill-arrow{font-size:12px;font-weight:900;color:#38bdf8}.spin-intensity-presets .frosted-pill-btn{padding:4px 6px;font-size:8.5px;letter-spacing:.4px}.v-slider-container{position:absolute;right:max(12px,calc(var(--safe-right) + 8px));bottom:max(16px,calc(var(--safe-bottom) + 12px));height:132px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;pointer-events:auto;z-index:25;-webkit-user-select:none;user-select:none;transition:opacity .22s ease,transform .22s ease}.v-slider-val-tag{font-size:9px;font-weight:800;font-family:monospace;color:#38bdf8;text-shadow:0 0 6px rgba(56,189,248,.6)}.v-slider-track{position:relative;width:16px;height:100px;background:#ffffff29;border:1.5px solid rgba(255,255,255,.4);border-radius:9999px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 4px 12px #0000004d,inset 0 2px 4px #00000040;cursor:pointer;touch-action:none}.v-slider-fill{position:absolute;bottom:0;left:0;width:100%;height:50%;border-radius:9999px;background:linear-gradient(0deg,#38bdf8,#f59e0b);opacity:.6;pointer-events:none;transition:height .05s linear}.v-slider-thumb{position:absolute;left:50%;bottom:50%;transform:translate(-50%,50%);width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid #38bdf8;box-shadow:0 0 10px #38bdf8cc,0 3px 6px #0006;pointer-events:none;transition:bottom .05s linear}.v-slider-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#fffc;text-transform:uppercase}.hint-banner{position:absolute;bottom:max(16px,calc(var(--safe-bottom) + 12px));left:50%;transform:translate(-50%);background:#0f172ad1;border:1px solid rgba(255,255,255,.14);color:#f1f5f9;font-size:13px;font-weight:500;letter-spacing:.5px;padding:8px 20px;border-radius:20px;box-shadow:0 4px 18px #00000073;pointer-events:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .25s ease;white-space:nowrap;max-width:calc(100vw - 32px);text-align:center;z-index:20}.game-modal-card{width:380px;max-width:min(92vw,380px);background:#0f172a;border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:24px 20px;box-shadow:0 24px 50px #000000b3;text-align:center;font-family:system-ui,-apple-system,sans-serif;color:#f8fafc;animation:popIn .28s ease-out;max-height:90dvh;overflow-y:auto}@media(max-width:600px){.arcade-hud{top:max(8px,calc(var(--safe-top) + 4px));padding:6px 12px;gap:8px;border-radius:20px;width:calc(100vw - 16px);justify-content:space-around}.hud-divider{height:18px}#hud-round{font-size:10px!important;padding:3px 7px!important;letter-spacing:.5px!important}#hud-attempts-balls .attempt-ball{width:8px!important;height:8px!important}#hud-wind-container{padding:3px 7px!important;gap:4px!important}#hud-wind-container span:first-child{font-size:8px!important}#hud-wind-label{font-size:10px!important}#hud-obstacle-badge{padding:3px 6px!important;gap:3px!important}#hud-obstacle-badge span:last-child{font-size:8px!important}#hud-score{font-size:17px!important}#hud-best{font-size:14px!important}.power-meter{bottom:max(142px,calc(var(--safe-bottom) + 132px));padding:8px 14px;border-radius:12px}.spin-dock-right{right:max(38px,calc(var(--safe-right) + 34px));bottom:max(12px,calc(var(--safe-bottom) + 8px));padding:8px 10px;gap:6px;border-radius:18px;max-width:calc(100vw - 64px)}.spin-ball-canvas-wrap{width:48px;height:48px}.spin-ball-canvas{width:48px!important;height:48px!important}.frosted-pill-btn{padding:5px 8px;font-size:9.5px}.spin-intensity-presets .frosted-pill-btn{padding:3px 5px;font-size:8px}.v-slider-container{height:112px;right:max(8px,calc(var(--safe-right) + 6px));bottom:max(12px,calc(var(--safe-bottom) + 8px))}.v-slider-track{width:14px;height:82px}.v-slider-thumb{width:18px;height:18px}.power-meter-inner{width:170px!important}.hint-banner{bottom:max(10px,calc(var(--safe-bottom) + 6px));left:max(12px,calc(var(--safe-left) + 8px));transform:none;font-size:10px;padding:5px 12px;max-width:calc(100vw - 250px);letter-spacing:.2px;text-overflow:ellipsis;overflow:hidden}.game-modal-card{padding:20px 16px;border-radius:16px}#modal-title{font-size:20px!important}#modal-stat-round-score,#modal-stat-bonus,#modal-stat-total-score,#modal-stat-best-score{font-size:17px!important}}@media(max-width:380px){.arcade-hud{padding:5px 8px;gap:5px}.hud-label-text{display:none}#hud-score{font-size:15px!important}#hud-best{font-size:12px!important}.spin-dock-right{right:max(34px,calc(var(--safe-right) + 30px));padding:6px 8px;gap:5px}.spin-hud-title{display:none}.spin-ball-canvas-wrap{width:40px;height:40px}.spin-ball-canvas{width:40px!important;height:40px!important}.frosted-pill-btn{padding:4px 6px!important;font-size:8px!important}}
+(function(){"use strict";var oa=document.createElement("style");oa.textContent=`*,*:before,*:after{box-sizing:border-box;margin:0;padding:0}:root{--safe-top: env(safe-area-inset-top, 0px);--safe-bottom: env(safe-area-inset-bottom, 0px);--safe-left: env(safe-area-inset-left, 0px);--safe-right: env(safe-area-inset-right, 0px)}html,body{width:100%;height:100%;height:100dvh;min-height:100%;overflow:hidden;background-color:#0f172a;color:#f0f0f0;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;overscroll-behavior:none;position:fixed;top:0;right:0;bottom:0;left:0}#app{position:relative;width:100vw;width:100dvw;height:100vh;height:100dvh;overflow:hidden;touch-action:none;overscroll-behavior:none}#canvas-container{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;touch-action:none;cursor:crosshair}#canvas-container canvas{display:block;width:100%!important;height:100%!important;touch-action:none}#ui-overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10}@keyframes popIn{0%{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}@keyframes pulseGlow{0%,to{box-shadow:0 0 10px #f59e0b4d}50%{box-shadow:0 0 20px #f59e0bb3}}button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}button:hover{filter:brightness(1.1);transform:translateY(-1px)}button:active{transform:translateY(1px)}.arcade-hud{position:absolute;top:max(12px,calc(var(--safe-top) + 6px));left:50%;transform:translate(-50%);display:flex;align-items:center;justify-content:space-between;gap:16px;width:auto;max-width:calc(100vw - 24px);padding:8px 20px;background:#0f172ae0;border:1px solid rgba(255,255,255,.16);border-radius:28px;box-shadow:0 8px 32px #00000080;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);-webkit-user-select:none;user-select:none;pointer-events:none;z-index:20;font-family:system-ui,-apple-system,sans-serif;transition:all .2s ease}.hud-divider{width:1px;height:22px;background:#ffffff26;flex-shrink:0}.power-meter{position:absolute;bottom:max(148px,calc(var(--safe-bottom) + 138px));left:50%;transform:translate(-50%);display:none;flex-direction:column;align-items:center;background:#0f172ae6;border:1px solid rgba(56,189,248,.35);border-radius:14px;padding:10px 18px;box-shadow:0 8px 24px #0000008c;pointer-events:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:20;transition:opacity .2s ease}.spin-menu-btn{position:absolute;right:max(16px,calc(var(--safe-right) + 12px));bottom:max(16px,calc(var(--safe-bottom) + 12px));display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;border-radius:9999px;background:#0f172ae0;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,.45);color:#fff;font-family:system-ui,-apple-system,sans-serif;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;box-shadow:0 6px 20px #0009,0 0 12px #38bdf859;cursor:pointer;z-index:35;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;pointer-events:auto;transition:all .22s cubic-bezier(.4,0,.2,1)}.spin-menu-btn:hover{background:#1e293bf2;border-color:#38bdf8;box-shadow:0 8px 24px #000000b3,0 0 16px #38bdf899;transform:translateY(-1px)}.spin-menu-btn:active{transform:scale(.95)}.spin-menu-btn.open{background:#ffffffeb;color:#0f172a;border-color:#38bdf8;box-shadow:0 0 18px #38bdf8d9}.hamburger-icon{display:flex;flex-direction:column;justify-content:space-between;width:14px;height:11px}.hamburger-icon .bar{display:block;width:100%;height:2px;background:currentColor;border-radius:2px;transition:all .22s cubic-bezier(.4,0,.2,1)}.spin-menu-btn.open .bar-1{transform:translateY(4.5px) rotate(45deg)}.spin-menu-btn.open .bar-2{opacity:0;transform:scaleX(0)}.spin-menu-btn.open .bar-3{transform:translateY(-4.5px) rotate(-45deg)}.spin-menu-status-dot{width:7px;height:7px;border-radius:50%;background:#fff9;display:inline-block;transition:all .2s ease}.spin-dock-right{position:absolute;right:max(44px,calc(var(--safe-right) + 40px));bottom:max(62px,calc(var(--safe-bottom) + 52px));display:flex;flex-direction:column;gap:8px;background:#0f172ac7;border:1.5px solid rgba(255,255,255,.24);border-radius:22px;padding:10px 14px;box-shadow:0 12px 36px #0000008c,inset 0 1px 1px #fff3;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);pointer-events:none;opacity:0;z-index:25;-webkit-user-select:none;user-select:none;transform:translate(20px) translateY(10px) scale(.92);transform-origin:bottom right;transition:opacity .24s cubic-bezier(.4,0,.2,1),transform .24s cubic-bezier(.4,0,.2,1)}.spin-dock-right.menu-open{opacity:1;pointer-events:auto;transform:translate(0) translateY(0) scale(1)}.spin-ball-hud-card{display:flex;align-items:center;gap:10px;padding-bottom:2px}.spin-ball-canvas-wrap{position:relative;width:60px;height:60px;flex-shrink:0;display:flex;align-items:center;justify-content:center}.spin-ball-canvas{display:block;width:60px;height:60px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}.spin-hud-meta{display:flex;flex-direction:column;gap:3px;min-width:140px}.spin-hud-title{font-size:9px;font-weight:800;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase}.spin-badge-pill{font-size:10px;font-weight:800;padding:3px 9px;border-radius:9999px;background:#ffffff26;border:1.5px solid rgba(255,255,255,.35);color:#fff;letter-spacing:.5px;transition:all .2s ease;white-space:nowrap;text-align:center}.spin-intensity-subrow{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:800;color:#94a3b8}.spin-sub-label{font-size:8.5px;font-weight:800;color:#94a3b8;letter-spacing:.5px}.spin-pct-text{color:#38bdf8;font-family:monospace;font-size:11px;font-weight:900}.spin-desc-text{color:#f59e0b;font-size:8.5px;letter-spacing:.5px}.frosted-pill-row{display:flex;align-items:center;gap:6px}.frosted-pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:7px 13px;border-radius:9999px;background:#ffffff38;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,.45);color:#fff;font-family:system-ui,-apple-system,sans-serif;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;box-shadow:0 4px 14px #00000040,inset 0 1px 1px #ffffff59;cursor:pointer;transition:all .15s cubic-bezier(.4,0,.2,1);-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;flex:1}.frosted-pill-btn:hover{background:#ffffff59;border-color:#ffffffa6;transform:translateY(-1px);box-shadow:0 6px 18px #0000004d,inset 0 1px 2px #ffffff80}.frosted-pill-btn:active{transform:scale(.96)}.frosted-pill-btn.active{background:#ffffffeb;color:#0f172a;border-color:#38bdf8;box-shadow:0 0 16px #38bdf8cc,inset 0 1px 2px #ffffffe6;font-weight:900}.frosted-pill-btn.active .pill-arrow{color:#0284c7}.pill-arrow{font-size:12px;font-weight:900;color:#38bdf8}.spin-intensity-presets .frosted-pill-btn{padding:4px 6px;font-size:8.5px;letter-spacing:.4px}.v-slider-container{position:absolute;right:max(12px,calc(var(--safe-right) + 8px));bottom:max(62px,calc(var(--safe-bottom) + 52px));height:132px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;pointer-events:none;opacity:0;z-index:25;-webkit-user-select:none;user-select:none;transform:translate(16px);transition:opacity .24s cubic-bezier(.4,0,.2,1),transform .24s cubic-bezier(.4,0,.2,1)}.v-slider-container.menu-open{opacity:1;pointer-events:auto;transform:translate(0)}.v-slider-val-tag{font-size:9px;font-weight:800;font-family:monospace;color:#38bdf8;text-shadow:0 0 6px rgba(56,189,248,.6)}.v-slider-track{position:relative;width:16px;height:100px;background:#ffffff29;border:1.5px solid rgba(255,255,255,.4);border-radius:9999px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 4px 12px #0000004d,inset 0 2px 4px #00000040;cursor:pointer;touch-action:none}.v-slider-fill{position:absolute;bottom:0;left:0;width:100%;height:50%;border-radius:9999px;background:linear-gradient(0deg,#38bdf8,#f59e0b);opacity:.6;pointer-events:none;transition:height .05s linear}.v-slider-thumb{position:absolute;left:50%;bottom:50%;transform:translate(-50%,50%);width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid #38bdf8;box-shadow:0 0 10px #38bdf8cc,0 3px 6px #0006;pointer-events:none;transition:bottom .05s linear}.v-slider-label{font-size:8px;font-weight:800;letter-spacing:1.5px;color:#fffc;text-transform:uppercase}.hint-banner{position:absolute;bottom:max(16px,calc(var(--safe-bottom) + 12px));left:50%;transform:translate(-50%);background:#0f172ad1;border:1px solid rgba(255,255,255,.14);color:#f1f5f9;font-size:13px;font-weight:500;letter-spacing:.5px;padding:8px 20px;border-radius:20px;box-shadow:0 4px 18px #00000073;pointer-events:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .25s ease;white-space:nowrap;max-width:calc(100vw - 32px);text-align:center;z-index:20}.game-modal-card{width:380px;max-width:min(92vw,380px);background:#0f172a;border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:24px 20px;box-shadow:0 24px 50px #000000b3;text-align:center;font-family:system-ui,-apple-system,sans-serif;color:#f8fafc;animation:popIn .28s ease-out;max-height:90dvh;overflow-y:auto}@media(max-width:600px){.arcade-hud{top:max(8px,calc(var(--safe-top) + 4px));padding:6px 12px;gap:8px;border-radius:20px;width:calc(100vw - 16px);justify-content:space-around}.hud-divider{height:18px}#hud-round{font-size:10px!important;padding:3px 7px!important;letter-spacing:.5px!important}#hud-attempts-balls .attempt-ball{width:8px!important;height:8px!important}#hud-wind-container{padding:3px 7px!important;gap:4px!important}#hud-wind-container span:first-child{font-size:8px!important}#hud-wind-label{font-size:10px!important}#hud-obstacle-badge{padding:3px 6px!important;gap:3px!important}#hud-obstacle-badge span:last-child{font-size:8px!important}#hud-score{font-size:17px!important}#hud-best{font-size:14px!important}.power-meter{bottom:max(142px,calc(var(--safe-bottom) + 132px));padding:8px 14px;border-radius:12px}.spin-menu-btn{right:max(10px,calc(var(--safe-right) + 6px));bottom:max(10px,calc(var(--safe-bottom) + 6px));padding:7px 13px;font-size:10px;gap:6px}.spin-dock-right{right:max(10px,calc(var(--safe-right) + 6px));bottom:max(52px,calc(var(--safe-bottom) + 46px));display:flex;flex-direction:column;align-items:flex-end;gap:6px;border-radius:20px;padding:8px 12px;max-width:calc(100vw - 20px);transform-origin:bottom right;transform:translate(20px) translateY(10px) scale(.9)}.spin-dock-right.menu-open{opacity:1;pointer-events:auto;transform:translate(0) translateY(0) scale(1)}.spin-ball-hud-card{align-self:flex-start;gap:8px;padding-bottom:2px;transform:rotate(-2.5deg);transform-origin:left center}.spin-ball-canvas-wrap{width:44px;height:44px}.spin-ball-canvas{width:44px!important;height:44px!important}.spin-dirs-row{display:flex;gap:5px;justify-content:flex-end;transform:rotate(-3.5deg);transform-origin:right center}.spin-dirs-row #spin-btn-left{transform:translateY(-6px)}.spin-dirs-row #spin-btn-none{transform:translateY(-2px)}.spin-dirs-row #spin-btn-right{transform:translateY(2px)}.spin-intensity-presets{display:flex;gap:3px;justify-content:flex-end;transform:rotate(-2.5deg);transform-origin:right center}.frosted-pill-btn{padding:5px 8px;font-size:9px}.spin-intensity-presets .frosted-pill-btn{padding:3px 5px;font-size:8px}.v-slider-container{height:105px;right:max(10px,calc(var(--safe-right) + 6px));bottom:max(225px,calc(var(--safe-bottom) + 215px));transform-origin:bottom right;transform:translate(16px)}.v-slider-container.menu-open{opacity:1;pointer-events:auto;transform:translate(0)}.v-slider-track{width:14px;height:76px}.v-slider-thumb{width:18px;height:18px}.power-meter-inner{width:170px!important}.hint-banner{bottom:max(10px,calc(var(--safe-bottom) + 6px));left:max(12px,calc(var(--safe-left) + 8px));transform:none;font-size:10px;padding:5px 12px;max-width:calc(100vw - 120px);letter-spacing:.2px;text-overflow:ellipsis;overflow:hidden}.game-modal-card{padding:20px 16px;border-radius:16px}#modal-title{font-size:20px!important}#modal-stat-round-score,#modal-stat-bonus,#modal-stat-total-score,#modal-stat-best-score{font-size:17px!important}}@media(max-width:380px){.arcade-hud{padding:5px 8px;gap:5px}.hud-label-text{display:none}#hud-score{font-size:15px!important}#hud-best{font-size:12px!important}.spin-dock-right{right:max(34px,calc(var(--safe-right) + 30px));padding:6px 8px;gap:5px}.spin-hud-title{display:none}.spin-ball-canvas-wrap{width:40px;height:40px}.spin-ball-canvas{width:40px!important;height:40px!important}.frosted-pill-btn{padding:4px 6px!important;font-size:8px!important}}
 /*$vite$:1*/`,document.head.appendChild(oa);/**
  * @license
  * Copyright 2010-2024 Three.js Authors
@@ -4819,11 +4994,22 @@ void main() {
         <span class="v-slider-label">SPIN</span>
       </div>
 
+      <!-- HAMBURGER MENU BUTTON TO TOGGLE SPIN HUD -->
+      <button type="button" id="spin-menu-btn" class="spin-menu-btn" title="Toggle Bowling Spin HUD">
+        <div class="hamburger-icon">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+          <span class="bar bar-3"></span>
+        </div>
+        <span class="spin-menu-text">SPIN</span>
+        <span id="spin-menu-status-dot" class="spin-menu-status-dot"></span>
+      </button>
+
       <!-- Action Hint Banner -->
       <div id="hint-banner" class="hint-banner">
         Drag to Aim & Charge • Release to Throw
       </div>
-    `,this.hudRound=document.getElementById("hud-round"),this.hudAttemptsBalls=document.getElementById("hud-attempts-balls"),this.hudScore=document.getElementById("hud-score"),this.hudBest=document.getElementById("hud-best"),this.hudHighBadge=document.getElementById("hud-high-badge"),this.hudWindContainer=document.getElementById("hud-wind-container"),this.hudWindArrow=document.getElementById("hud-wind-arrow"),this.hudWindLabel=document.getElementById("hud-wind-label"),this.hudObstacleBadge=document.getElementById("hud-obstacle-badge"),this.scorePopup=document.getElementById("score-popup"),this.scorePopupPts=document.getElementById("score-popup-pts"),this.scorePopupLabel=document.getElementById("score-popup-label"),this.gameModal=document.getElementById("game-modal"),this.modalBadge=document.getElementById("modal-badge"),this.modalTitle=document.getElementById("modal-title"),this.modalSubtitle=document.getElementById("modal-subtitle"),this.modalStatRoundScore=document.getElementById("modal-stat-round-score"),this.modalStatBonus=document.getElementById("modal-stat-bonus"),this.modalStatTotalScore=document.getElementById("modal-stat-total-score"),this.modalStatBestScore=document.getElementById("modal-stat-best-score"),this.modalNextPreview=document.getElementById("modal-next-preview"),this.modalNextDesc=document.getElementById("modal-next-desc"),this.modalBtnPrimary=document.getElementById("modal-btn-primary"),this.modalBtnSecondary=document.getElementById("modal-btn-secondary"),this.powerContainer=document.getElementById("power-meter-container"),this.powerFill=document.getElementById("power-bar-fill"),this.powerValue=document.getElementById("power-value"),this.hintBanner=document.getElementById("hint-banner"),this.spinDock=document.getElementById("spin-control-dock"),this.spinBallCanvas=document.getElementById("spin-ball-canvas"),this.spinBadge=document.getElementById("spin-badge"),this.spinBtnLeft=document.getElementById("spin-btn-left"),this.spinBtnNone=document.getElementById("spin-btn-none"),this.spinBtnRight=document.getElementById("spin-btn-right"),this.spinIntensityPct=document.getElementById("spin-intensity-pct"),this.spinIntensityDesc=document.getElementById("spin-intensity-desc"),this.spinMilestoneTags=document.querySelectorAll(".spin-milestone-tag"),this.vSliderContainer=document.getElementById("spin-v-slider-container"),this.vSliderTrack=document.getElementById("v-slider-track"),this.vSliderFill=document.getElementById("v-slider-fill"),this.vSliderThumb=document.getElementById("v-slider-thumb"),this.vSliderValTag=document.getElementById("v-slider-val-tag"),this.currentSpinDir="NONE",this.currentSpinIntensity=.5,this.spinBallCanvas&&(this.spinningBall=new Cx(this.spinBallCanvas),this.spinningBall.setSpin(this.currentSpinDir,this.currentSpinIntensity),this.spinningBall.draw()))}updateScoreboard(t){if(t&&(this.hudScore&&(this.hudScore.textContent=String(t.score||0)),this.hudBest&&(this.hudBest.textContent=String(t.bestScore||0)),this.hudRound&&(this.hudRound.textContent=`ROUND ${t.round||1}`),this.hudHighBadge&&(this.hudHighBadge.style.display=t.isNewHighScore?"inline-block":"none"),this.hudAttemptsBalls)){const e=typeof t.attemptsRemaining=="number"?t.attemptsRemaining:3,n=t.maxAttempts||3;let i="";for(let s=0;s<n;s++)s<e?i+='<span class="attempt-ball" style="width: 10px; height: 10px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 6px #ef4444; display: inline-block;"></span>':i+='<span class="attempt-ball" style="width: 10px; height: 10px; border-radius: 50%; background: #475569; display: inline-block; opacity: 0.5;"></span>';this.hudAttemptsBalls.innerHTML=i}}updateWindIndicator(t){if(!(!this.hudWindLabel||!this.hudWindArrow))if(!t||!t.isActive||t.forceX===0)this.hudWindArrow.textContent="",this.hudWindArrow.style.display="none",this.hudWindLabel.textContent="CALM",this.hudWindLabel.style.color="#94a3b8",this.hudWindContainer&&(this.hudWindContainer.style.borderColor="rgba(255, 255, 255, 0.1)",this.hudWindContainer.style.boxShadow="none");else{this.hudWindArrow.style.display="inline-block",this.hudWindArrow.textContent=t.arrow,this.hudWindLabel.textContent=t.label;const e=t.label==="STRONG",n=t.label==="MODERATE",i=e?"#ef4444":n?"#f59e0b":"#38bdf8";this.hudWindArrow.style.color=i,this.hudWindLabel.style.color=i,this.hudWindContainer&&(this.hudWindContainer.style.borderColor=i,this.hudWindContainer.style.boxShadow=`0 0 10px ${i}33`)}}updateObstacleIndicator(t){this.hudObstacleBadge&&(this.hudObstacleBadge.style.display=t?"flex":"none")}showScorePopup(t,e){!this.scorePopup||!this.scorePopupPts||!this.scorePopupLabel||(t<=0?(this.scorePopupPts.textContent="0",this.scorePopupPts.style.color="#94a3b8",this.scorePopup.style.borderColor="rgba(255, 255, 255, 0.2)"):(this.scorePopupPts.textContent=`+${t}`,this.scorePopupPts.style.color=t>=50?"#f59e0b":t>=25?"#38bdf8":"#10b981",this.scorePopup.style.borderColor=t>=50?"#f59e0b":t>=25?"#38bdf8":"#10b981"),this.scorePopupLabel.textContent=e,this.scorePopup.style.opacity="1",this.scorePopup.style.transform="translate(-50%, -70%) scale(1.05)",clearTimeout(this._popupTimeout),this._popupTimeout=setTimeout(()=>{this.scorePopup&&(this.scorePopup.style.opacity="0",this.scorePopup.style.transform="translate(-50%, -50%) scale(0.85)")},1800))}showRoundCompleteModal(t,e,n){this.gameModal&&(this.modalBadge.textContent="ROUND COMPLETE",this.modalBadge.style.background="#10b981",this.modalTitle.textContent=`Round ${t.round} Completed!`,this.modalSubtitle.textContent="You knocked down wickets and earned +20 round completion bonus points!",this.modalStatRoundScore.textContent=`+${t.roundScore}`,this.modalStatBonus.textContent="+20",this.modalStatTotalScore.textContent=String(t.totalScore),this.modalStatBestScore.textContent=String(t.bestScore),this.modalNextPreview&&this.modalNextDesc&&(this.modalNextPreview.style.display="block",this.modalNextDesc.textContent=t.nextDescription||"Increased challenge"),this.modalBtnPrimary.textContent=`Continue to Round ${t.round+1}`,this.modalBtnPrimary.onclick=()=>{this.hideModals(),e&&e()},this.modalBtnSecondary.textContent="Restart Game",this.modalBtnSecondary.onclick=()=>{this.hideModals(),n&&n()},this.gameModal.style.display="flex")}showGameOverModal(t,e){this.gameModal&&(this.modalBadge.textContent="INNINGS OVER",this.modalBadge.style.background="#ef4444",this.modalTitle.textContent="Game Over",this.modalSubtitle.textContent=`All attempts used in Round ${t.round}. Well played!`,this.modalStatRoundScore.textContent=`+${t.roundScore}`,this.modalStatBonus.textContent="0",this.modalStatTotalScore.textContent=String(t.totalScore),this.modalStatBestScore.textContent=String(t.bestScore),this.modalNextPreview&&(this.modalNextPreview.style.display="none"),this.modalBtnPrimary.textContent="Play Again (Restart)",this.modalBtnPrimary.onclick=()=>{this.hideModals(),e&&e()},this.modalBtnSecondary.textContent="Close",this.modalBtnSecondary.onclick=()=>{this.hideModals()},this.gameModal.style.display="flex")}hideModals(){this.gameModal&&(this.gameModal.style.display="none")}showPowerMeter(t){this.powerContainer&&(this.powerContainer.style.display=t?"flex":"none")}updatePower(t,e=.55,n=1.45){if(!this.powerFill||!this.powerValue)return;const i=Math.max(0,Math.min(1,(t-e)/(n-e))),s=Math.round(i*100);this.powerFill.style.width=`${s}%`,this.powerValue.textContent=`${Math.round(t*100)}%`}showHint(t){this.hintBanner&&(t?(this.hintBanner.textContent=t,this.hintBanner.style.opacity="1"):this.hintBanner.style.opacity="0")}showError(t){if(!this.container)return;const e=document.createElement("div");e.style.position="absolute",e.style.top="20px",e.style.left="50%",e.style.transform="translateX(-50%)",e.style.backgroundColor="rgba(220, 38, 38, 0.9)",e.style.color="#ffffff",e.style.padding="12px 20px",e.style.borderRadius="8px",e.style.fontFamily="monospace",e.style.fontSize="14px",e.style.boxShadow="0 4px 12px rgba(0, 0, 0, 0.4)",e.style.pointerEvents="auto",e.textContent=`Error: ${t}`,this.container.appendChild(e)}update(t=1/60){this.spinningBall&&(this.spinningBall.update(t),this.spinningBall.draw())}setupSpinControls(t={}){this.spinCallbacks=t;const e=i=>{i.stopPropagation()};if(this.spinDock&&["pointerdown","mousedown","touchstart","pointermove","touchmove","pointerup","touchend"].forEach(i=>{this.spinDock.addEventListener(i,e,{passive:!1})}),this.vSliderContainer&&["pointerdown","mousedown","touchstart","pointermove","touchmove","pointerup","touchend"].forEach(i=>{this.vSliderContainer.addEventListener(i,e,{passive:!1})}),[this.spinBtnLeft,this.spinBtnNone,this.spinBtnRight].forEach(i=>{i&&i.addEventListener("click",s=>{s.stopPropagation();const o=i.getAttribute("data-dir");this.currentSpinDir=o,this.updateSpinUI(this.currentSpinDir,this.currentSpinIntensity),typeof this.spinCallbacks.onDirectionChange=="function"&&this.spinCallbacks.onDirectionChange(o)})}),this.spinMilestoneTags&&this.spinMilestoneTags.forEach(i=>{i.addEventListener("click",s=>{s.stopPropagation();const o=parseInt(i.getAttribute("data-val"),10);this.currentSpinIntensity=o/100,this.updateSpinUI(this.currentSpinDir,this.currentSpinIntensity),typeof this.spinCallbacks.onIntensityChange=="function"&&this.spinCallbacks.onIntensityChange(this.currentSpinIntensity)})}),this.vSliderTrack){const i=a=>{const l=this.vSliderTrack.getBoundingClientRect();if(l.height<=0)return;const c=1-Math.max(0,Math.min(1,(a-l.top)/l.height)),d=Math.round(c*20)*.05;this.currentSpinIntensity=Math.max(0,Math.min(1,d)),this.updateSpinUI(this.currentSpinDir,this.currentSpinIntensity),typeof this.spinCallbacks.onIntensityChange=="function"&&this.spinCallbacks.onIntensityChange(this.currentSpinIntensity)};let s=!1;this.vSliderTrack.addEventListener("pointerdown",a=>{if(a.stopPropagation(),a.cancelable&&a.preventDefault(),s=!0,this.vSliderTrack.setPointerCapture&&a.pointerId!==void 0)try{this.vSliderTrack.setPointerCapture(a.pointerId)}catch{}i(a.clientY)},{passive:!1}),this.vSliderTrack.addEventListener("pointermove",a=>{s&&(a.stopPropagation(),a.cancelable&&a.preventDefault(),i(a.clientY))},{passive:!1});const o=a=>{if(s&&(s=!1,this.vSliderTrack.releasePointerCapture&&a.pointerId!==void 0))try{this.vSliderTrack.releasePointerCapture(a.pointerId)}catch{}};this.vSliderTrack.addEventListener("pointerup",o),this.vSliderTrack.addEventListener("pointercancel",o)}}setSpinControlsVisible(t){this.spinDock&&(t?(this.spinDock.style.opacity="1",this.spinDock.style.pointerEvents="auto",this.spinDock.style.transform="translateX(0) translateY(0)"):(this.spinDock.style.opacity="0",this.spinDock.style.pointerEvents="none",this.spinDock.style.transform="translateX(10px) translateY(0)")),this.vSliderContainer&&(t?(this.vSliderContainer.style.opacity="1",this.vSliderContainer.style.pointerEvents="auto",this.vSliderContainer.style.transform="translateX(0) translateY(0)"):(this.vSliderContainer.style.opacity="0",this.vSliderContainer.style.pointerEvents="none",this.vSliderContainer.style.transform="translateX(10px) translateY(0)"))}updateSpinUI(t,e){this.currentSpinDir=t||this.currentSpinDir||"NONE",this.currentSpinIntensity=typeof e=="number"?e:this.currentSpinIntensity??.5;const n=Math.round(this.currentSpinIntensity*100);this.spinningBall&&this.spinningBall.setSpin(this.currentSpinDir,this.currentSpinIntensity),[{btn:this.spinBtnLeft,dir:"LEFT"},{btn:this.spinBtnNone,dir:"NONE"},{btn:this.spinBtnRight,dir:"RIGHT"}].forEach(({btn:o,dir:a})=>{o&&(a===this.currentSpinDir?o.classList.add("active"):o.classList.remove("active"))}),this.vSliderFill&&(this.vSliderFill.style.height=`${n}%`),this.vSliderThumb&&(this.vSliderThumb.style.bottom=`${n}%`),this.vSliderValTag&&(this.vSliderValTag.textContent=`${n}%`),this.spinIntensityPct&&(this.spinIntensityPct.textContent=`${n}%`);let s="Slight";n===0?s="No Spin":n<=25?s="Slight":n<=50?s="Moderate":n<=75?s="Strong":s="Maximum",this.spinIntensityDesc&&(this.spinIntensityDesc.textContent=s.toUpperCase()),this.spinBadge&&(this.currentSpinDir==="NONE"?(this.spinBadge.textContent="NO SPIN (STRAIGHT)",this.spinBadge.style.color="#ffffff",this.spinBadge.style.borderColor="rgba(255, 255, 255, 0.45)"):this.currentSpinDir==="LEFT"?(this.spinBadge.textContent=`LEFT SPIN (${n}%)`,this.spinBadge.style.color="#38bdf8",this.spinBadge.style.borderColor="#38bdf8"):(this.spinBadge.textContent=`RIGHT SPIN (${n}%)`,this.spinBadge.style.color="#f59e0b",this.spinBadge.style.borderColor="#f59e0b")),this.spinMilestoneTags&&this.spinMilestoneTags.forEach(o=>{const a=parseInt(o.getAttribute("data-val"),10);Math.abs(a-n)<=5?o.classList.add("active"):o.classList.remove("active")})}destroy(){this.container&&(this.container.innerHTML="")}}function Pc(){const r=document.getElementById("canvas-container"),t=document.getElementById("ui-overlay"),e=new Rx(t);e.init();const n=new bx;e.updateScoreboard(n.getState()),window.addEventListener("error",i=>{console.error("Unhandled runtime error:",i.error||i.message),e.showError(i.message||"An unexpected error occurred.")});try{const i=new gx(r),s=new wx(i.scene);e.updateWindIndicator(s.getUIInfo());const o=new Ax({scene:i.scene,physics:i.physics});e.updateObstacleIndicator(o.enabled);const a=i.cricketBall?i.cricketBall.position:void 0,l=new vx(i.camera,i.renderer.domElement,i.scene,a);l.setObstacleManager(o);const c=new Sx({physics:i.physics,scene:i.scene,ui:e}),d=new yx({controls:l,physics:i.physics,ui:e,collisionManager:c,scoring:n,windManager:s,obstacleManager:o,sceneManager:i});l.setThrowingManager(d),Yi.applyDifficulty({sceneManager:i,physicsManager:i.physics,controlsManager:l,collisionManager:c,windManager:s,obstacleManager:o,ui:e},1),e.setupSpinControls({onDirectionChange:u=>{l.setSpinDirection(u)},onIntensityChange:u=>{l.setSpinIntensity(u)}}),e.updateSpinUI(l.spinDirection,l.spinIntensity),window.addEventListener("keydown",u=>{if(u.key==="7")s.setWind({forceX:0,label:"CALM",arrow:""}),i.physics.setWindForce(0),l.setWindAcceleration(0),e.updateWindIndicator(s.getUIInfo()),console.log("[Dev Test] Wind set to CALM (0N)");else if(u.key==="8")s.setWind({forceX:.14,label:"LIGHT",arrow:"→"}),i.physics.setWindForce(.14),l.setWindAcceleration(s.getAccelerationX()),e.updateWindIndicator(s.getUIInfo()),console.log("[Dev Test] Wind set to LIGHT → (+0.14N)");else if(u.key==="9")s.setWind({forceX:-.14,label:"LIGHT",arrow:"←"}),i.physics.setWindForce(-.14),l.setWindAcceleration(s.getAccelerationX()),e.updateWindIndicator(s.getUIInfo()),console.log("[Dev Test] Wind set to LIGHT ← (-0.14N)");else if(u.key==="0")s.setWind({forceX:.24,label:"MODERATE",arrow:"→"}),i.physics.setWindForce(.24),l.setWindAcceleration(s.getAccelerationX()),e.updateWindIndicator(s.getUIInfo()),console.log("[Dev Test] Wind set to MODERATE → (+0.24N)");else if(u.key==="o"||u.key==="O"){const h=!o.enabled;o.configure({enabled:h,speed:h?1:0}),e.updateObstacleIndicator(h),console.log(`[Dev Test] Obstacle toggled: ${h?"ACTIVE (1.0m/s)":"INACTIVE"}`)}else if(u.key==="1"||u.key==="j"||u.key==="J")l.setSpinDirection("LEFT"),e.updateSpinUI(l.spinDirection,l.spinIntensity);else if(u.key==="2"||u.key==="k"||u.key==="K")l.setSpinDirection("NONE"),e.updateSpinUI(l.spinDirection,l.spinIntensity);else if(u.key==="3"||u.key==="l"||u.key==="L")l.setSpinDirection("RIGHT"),e.updateSpinUI(l.spinDirection,l.spinIntensity);else if(u.key==="["){const h=Math.max(0,l.spinIntensity-.1);l.setSpinIntensity(h),e.updateSpinUI(l.spinDirection,l.spinIntensity)}else if(u.key==="]"){const h=Math.min(1,l.spinIntensity+.1);l.setSpinIntensity(h),e.updateSpinUI(l.spinDirection,l.spinIntensity)}}),i.start((u,h)=>{l.update(u),d.update(u),c.update(u),s.update(u,h),o.update(u),e&&typeof e.update=="function"&&e.update(u)}),console.log("Cricket Toss: 3D environment, aiming, throwing, collision, scoring, wind & obstacle systems initialized successfully.")}catch(i){console.error("Initialization failed:",i),e.showError(i.message||"Failed to initialize 3D scene.")}}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",Pc):Pc()})();
+    `,this.hudRound=document.getElementById("hud-round"),this.hudAttemptsBalls=document.getElementById("hud-attempts-balls"),this.hudScore=document.getElementById("hud-score"),this.hudBest=document.getElementById("hud-best"),this.hudHighBadge=document.getElementById("hud-high-badge"),this.hudWindContainer=document.getElementById("hud-wind-container"),this.hudWindArrow=document.getElementById("hud-wind-arrow"),this.hudWindLabel=document.getElementById("hud-wind-label"),this.hudObstacleBadge=document.getElementById("hud-obstacle-badge"),this.scorePopup=document.getElementById("score-popup"),this.scorePopupPts=document.getElementById("score-popup-pts"),this.scorePopupLabel=document.getElementById("score-popup-label"),this.gameModal=document.getElementById("game-modal"),this.modalBadge=document.getElementById("modal-badge"),this.modalTitle=document.getElementById("modal-title"),this.modalSubtitle=document.getElementById("modal-subtitle"),this.modalStatRoundScore=document.getElementById("modal-stat-round-score"),this.modalStatBonus=document.getElementById("modal-stat-bonus"),this.modalStatTotalScore=document.getElementById("modal-stat-total-score"),this.modalStatBestScore=document.getElementById("modal-stat-best-score"),this.modalNextPreview=document.getElementById("modal-next-preview"),this.modalNextDesc=document.getElementById("modal-next-desc"),this.modalBtnPrimary=document.getElementById("modal-btn-primary"),this.modalBtnSecondary=document.getElementById("modal-btn-secondary"),this.powerContainer=document.getElementById("power-meter-container"),this.powerFill=document.getElementById("power-bar-fill"),this.powerValue=document.getElementById("power-value"),this.hintBanner=document.getElementById("hint-banner"),this.spinDock=document.getElementById("spin-control-dock"),this.spinBallCanvas=document.getElementById("spin-ball-canvas"),this.spinBadge=document.getElementById("spin-badge"),this.spinBtnLeft=document.getElementById("spin-btn-left"),this.spinBtnNone=document.getElementById("spin-btn-none"),this.spinBtnRight=document.getElementById("spin-btn-right"),this.spinIntensityPct=document.getElementById("spin-intensity-pct"),this.spinIntensityDesc=document.getElementById("spin-intensity-desc"),this.spinMilestoneTags=document.querySelectorAll(".spin-milestone-tag"),this.vSliderContainer=document.getElementById("spin-v-slider-container"),this.vSliderTrack=document.getElementById("v-slider-track"),this.vSliderFill=document.getElementById("v-slider-fill"),this.vSliderThumb=document.getElementById("v-slider-thumb"),this.vSliderValTag=document.getElementById("v-slider-val-tag"),this.spinMenuBtn=document.getElementById("spin-menu-btn"),this.spinMenuStatusDot=document.getElementById("spin-menu-status-dot"),this.isSpinMenuOpen=!1,this.isBallReady=!0,this.currentSpinDir="NONE",this.currentSpinIntensity=.5,this.spinBallCanvas&&(this.spinningBall=new Cx(this.spinBallCanvas),this.spinningBall.setSpin(this.currentSpinDir,this.currentSpinIntensity),this.spinningBall.draw()),this.applyMenuState(!1))}updateScoreboard(t){if(t&&(this.hudScore&&(this.hudScore.textContent=String(t.score||0)),this.hudBest&&(this.hudBest.textContent=String(t.bestScore||0)),this.hudRound&&(this.hudRound.textContent=`ROUND ${t.round||1}`),this.hudHighBadge&&(this.hudHighBadge.style.display=t.isNewHighScore?"inline-block":"none"),this.hudAttemptsBalls)){const e=typeof t.attemptsRemaining=="number"?t.attemptsRemaining:3,n=t.maxAttempts||3;let i="";for(let s=0;s<n;s++)s<e?i+='<span class="attempt-ball" style="width: 10px; height: 10px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 6px #ef4444; display: inline-block;"></span>':i+='<span class="attempt-ball" style="width: 10px; height: 10px; border-radius: 50%; background: #475569; display: inline-block; opacity: 0.5;"></span>';this.hudAttemptsBalls.innerHTML=i}}updateWindIndicator(t){if(!(!this.hudWindLabel||!this.hudWindArrow))if(!t||!t.isActive||t.forceX===0)this.hudWindArrow.textContent="",this.hudWindArrow.style.display="none",this.hudWindLabel.textContent="CALM",this.hudWindLabel.style.color="#94a3b8",this.hudWindContainer&&(this.hudWindContainer.style.borderColor="rgba(255, 255, 255, 0.1)",this.hudWindContainer.style.boxShadow="none");else{this.hudWindArrow.style.display="inline-block",this.hudWindArrow.textContent=t.arrow,this.hudWindLabel.textContent=t.label;const e=t.label==="STRONG",n=t.label==="MODERATE",i=e?"#ef4444":n?"#f59e0b":"#38bdf8";this.hudWindArrow.style.color=i,this.hudWindLabel.style.color=i,this.hudWindContainer&&(this.hudWindContainer.style.borderColor=i,this.hudWindContainer.style.boxShadow=`0 0 10px ${i}33`)}}updateObstacleIndicator(t){this.hudObstacleBadge&&(this.hudObstacleBadge.style.display=t?"flex":"none")}showScorePopup(t,e){!this.scorePopup||!this.scorePopupPts||!this.scorePopupLabel||(t<=0?(this.scorePopupPts.textContent="0",this.scorePopupPts.style.color="#94a3b8",this.scorePopup.style.borderColor="rgba(255, 255, 255, 0.2)"):(this.scorePopupPts.textContent=`+${t}`,this.scorePopupPts.style.color=t>=50?"#f59e0b":t>=25?"#38bdf8":"#10b981",this.scorePopup.style.borderColor=t>=50?"#f59e0b":t>=25?"#38bdf8":"#10b981"),this.scorePopupLabel.textContent=e,this.scorePopup.style.opacity="1",this.scorePopup.style.transform="translate(-50%, -70%) scale(1.05)",clearTimeout(this._popupTimeout),this._popupTimeout=setTimeout(()=>{this.scorePopup&&(this.scorePopup.style.opacity="0",this.scorePopup.style.transform="translate(-50%, -50%) scale(0.85)")},1800))}showRoundCompleteModal(t,e,n){this.gameModal&&(this.modalBadge.textContent="ROUND COMPLETE",this.modalBadge.style.background="#10b981",this.modalTitle.textContent=`Round ${t.round} Completed!`,this.modalSubtitle.textContent="You knocked down wickets and earned +20 round completion bonus points!",this.modalStatRoundScore.textContent=`+${t.roundScore}`,this.modalStatBonus.textContent="+20",this.modalStatTotalScore.textContent=String(t.totalScore),this.modalStatBestScore.textContent=String(t.bestScore),this.modalNextPreview&&this.modalNextDesc&&(this.modalNextPreview.style.display="block",this.modalNextDesc.textContent=t.nextDescription||"Increased challenge"),this.modalBtnPrimary.textContent=`Continue to Round ${t.round+1}`,this.modalBtnPrimary.onclick=()=>{this.hideModals(),e&&e()},this.modalBtnSecondary.textContent="Restart Game",this.modalBtnSecondary.onclick=()=>{this.hideModals(),n&&n()},this.gameModal.style.display="flex")}showGameOverModal(t,e){this.gameModal&&(this.modalBadge.textContent="INNINGS OVER",this.modalBadge.style.background="#ef4444",this.modalTitle.textContent="Game Over",this.modalSubtitle.textContent=`All attempts used in Round ${t.round}. Well played!`,this.modalStatRoundScore.textContent=`+${t.roundScore}`,this.modalStatBonus.textContent="0",this.modalStatTotalScore.textContent=String(t.totalScore),this.modalStatBestScore.textContent=String(t.bestScore),this.modalNextPreview&&(this.modalNextPreview.style.display="none"),this.modalBtnPrimary.textContent="Play Again (Restart)",this.modalBtnPrimary.onclick=()=>{this.hideModals(),e&&e()},this.modalBtnSecondary.textContent="Close",this.modalBtnSecondary.onclick=()=>{this.hideModals()},this.gameModal.style.display="flex")}hideModals(){this.gameModal&&(this.gameModal.style.display="none")}showPowerMeter(t){this.powerContainer&&(this.powerContainer.style.display=t?"flex":"none")}updatePower(t,e=.55,n=1.45){if(!this.powerFill||!this.powerValue)return;const i=Math.max(0,Math.min(1,(t-e)/(n-e))),s=Math.round(i*100);this.powerFill.style.width=`${s}%`,this.powerValue.textContent=`${Math.round(t*100)}%`}showHint(t){this.hintBanner&&(t?(this.hintBanner.textContent=t,this.hintBanner.style.opacity="1"):this.hintBanner.style.opacity="0")}showError(t){if(!this.container)return;const e=document.createElement("div");e.style.position="absolute",e.style.top="20px",e.style.left="50%",e.style.transform="translateX(-50%)",e.style.backgroundColor="rgba(220, 38, 38, 0.9)",e.style.color="#ffffff",e.style.padding="12px 20px",e.style.borderRadius="8px",e.style.fontFamily="monospace",e.style.fontSize="14px",e.style.boxShadow="0 4px 12px rgba(0, 0, 0, 0.4)",e.style.pointerEvents="auto",e.textContent=`Error: ${t}`,this.container.appendChild(e)}update(t=1/60){this.spinningBall&&(this.spinningBall.update(t),this.spinningBall.draw())}setupSpinControls(t={}){this.spinCallbacks=t;const e=i=>{i.stopPropagation()};if(this.spinDock&&["pointerdown","mousedown","touchstart","pointermove","touchmove","pointerup","touchend"].forEach(i=>{this.spinDock.addEventListener(i,e,{passive:!1})}),this.vSliderContainer&&["pointerdown","mousedown","touchstart","pointermove","touchmove","pointerup","touchend"].forEach(i=>{this.vSliderContainer.addEventListener(i,e,{passive:!1})}),this.spinMenuBtn&&(this.spinMenuBtn.addEventListener("click",i=>{i.stopPropagation(),this.toggleSpinMenu()}),["pointerdown","mousedown","touchstart"].forEach(i=>{this.spinMenuBtn.addEventListener(i,e,{passive:!1})})),[this.spinBtnLeft,this.spinBtnNone,this.spinBtnRight].forEach(i=>{i&&i.addEventListener("click",s=>{s.stopPropagation();const o=i.getAttribute("data-dir");this.currentSpinDir=o,this.updateSpinUI(this.currentSpinDir,this.currentSpinIntensity),typeof this.spinCallbacks.onDirectionChange=="function"&&this.spinCallbacks.onDirectionChange(o)})}),this.spinMilestoneTags&&this.spinMilestoneTags.forEach(i=>{i.addEventListener("click",s=>{s.stopPropagation();const o=parseInt(i.getAttribute("data-val"),10);this.currentSpinIntensity=o/100,this.updateSpinUI(this.currentSpinDir,this.currentSpinIntensity),typeof this.spinCallbacks.onIntensityChange=="function"&&this.spinCallbacks.onIntensityChange(this.currentSpinIntensity)})}),this.vSliderTrack){const i=a=>{const l=this.vSliderTrack.getBoundingClientRect();if(l.height<=0)return;const c=1-Math.max(0,Math.min(1,(a-l.top)/l.height)),d=Math.round(c*20)*.05;this.currentSpinIntensity=Math.max(0,Math.min(1,d)),this.updateSpinUI(this.currentSpinDir,this.currentSpinIntensity),typeof this.spinCallbacks.onIntensityChange=="function"&&this.spinCallbacks.onIntensityChange(this.currentSpinIntensity)};let s=!1;this.vSliderTrack.addEventListener("pointerdown",a=>{if(a.stopPropagation(),a.cancelable&&a.preventDefault(),s=!0,this.vSliderTrack.setPointerCapture&&a.pointerId!==void 0)try{this.vSliderTrack.setPointerCapture(a.pointerId)}catch{}i(a.clientY)},{passive:!1}),this.vSliderTrack.addEventListener("pointermove",a=>{s&&(a.stopPropagation(),a.cancelable&&a.preventDefault(),i(a.clientY))},{passive:!1});const o=a=>{if(s&&(s=!1,this.vSliderTrack.releasePointerCapture&&a.pointerId!==void 0))try{this.vSliderTrack.releasePointerCapture(a.pointerId)}catch{}};this.vSliderTrack.addEventListener("pointerup",o),this.vSliderTrack.addEventListener("pointercancel",o)}}toggleSpinMenu(){this.isSpinMenuOpen=!this.isSpinMenuOpen,this.applyMenuState(this.isSpinMenuOpen)}applyMenuState(t){this.isSpinMenuOpen=!!t,this.spinMenuBtn&&(this.isSpinMenuOpen?this.spinMenuBtn.classList.add("open"):this.spinMenuBtn.classList.remove("open"));const e=this.isSpinMenuOpen&&this.isBallReady;this.spinDock&&(e?(this.spinDock.style.opacity="1",this.spinDock.style.pointerEvents="auto",this.spinDock.classList.add("menu-open")):(this.spinDock.style.opacity="0",this.spinDock.style.pointerEvents="none",this.spinDock.classList.remove("menu-open"))),this.vSliderContainer&&(e?(this.vSliderContainer.style.opacity="1",this.vSliderContainer.style.pointerEvents="auto",this.vSliderContainer.classList.add("menu-open")):(this.vSliderContainer.style.opacity="0",this.vSliderContainer.style.pointerEvents="none",this.vSliderContainer.classList.remove("menu-open")))}setSpinControlsVisible(t){this.isBallReady=!!t,this.applyMenuState(this.isSpinMenuOpen),this.spinMenuBtn&&(this.spinMenuBtn.style.opacity=t?"1":"0",this.spinMenuBtn.style.pointerEvents=t?"auto":"none")}updateSpinUI(t,e){this.currentSpinDir=t||this.currentSpinDir||"NONE",this.currentSpinIntensity=typeof e=="number"?e:this.currentSpinIntensity??.5;const n=Math.round(this.currentSpinIntensity*100);this.spinningBall&&this.spinningBall.setSpin(this.currentSpinDir,this.currentSpinIntensity),[{btn:this.spinBtnLeft,dir:"LEFT"},{btn:this.spinBtnNone,dir:"NONE"},{btn:this.spinBtnRight,dir:"RIGHT"}].forEach(({btn:o,dir:a})=>{o&&(a===this.currentSpinDir?o.classList.add("active"):o.classList.remove("active"))}),this.vSliderFill&&(this.vSliderFill.style.height=`${n}%`),this.vSliderThumb&&(this.vSliderThumb.style.bottom=`${n}%`),this.vSliderValTag&&(this.vSliderValTag.textContent=`${n}%`),this.spinIntensityPct&&(this.spinIntensityPct.textContent=`${n}%`);let s="Slight";n===0?s="No Spin":n<=25?s="Slight":n<=50?s="Moderate":n<=75?s="Strong":s="Maximum",this.spinIntensityDesc&&(this.spinIntensityDesc.textContent=s.toUpperCase()),this.spinBadge&&(this.currentSpinDir==="NONE"?(this.spinBadge.textContent="NO SPIN (STRAIGHT)",this.spinBadge.style.color="#ffffff",this.spinBadge.style.borderColor="rgba(255, 255, 255, 0.45)"):this.currentSpinDir==="LEFT"?(this.spinBadge.textContent=`LEFT SPIN (${n}%)`,this.spinBadge.style.color="#38bdf8",this.spinBadge.style.borderColor="#38bdf8"):(this.spinBadge.textContent=`RIGHT SPIN (${n}%)`,this.spinBadge.style.color="#f59e0b",this.spinBadge.style.borderColor="#f59e0b")),this.spinMenuStatusDot&&(this.currentSpinDir==="LEFT"?(this.spinMenuStatusDot.style.background="#38bdf8",this.spinMenuStatusDot.style.boxShadow="0 0 8px #38bdf8"):this.currentSpinDir==="RIGHT"?(this.spinMenuStatusDot.style.background="#f59e0b",this.spinMenuStatusDot.style.boxShadow="0 0 8px #f59e0b"):(this.spinMenuStatusDot.style.background="rgba(255, 255, 255, 0.6)",this.spinMenuStatusDot.style.boxShadow="none")),this.spinMilestoneTags&&this.spinMilestoneTags.forEach(o=>{const a=parseInt(o.getAttribute("data-val"),10);Math.abs(a-n)<=5?o.classList.add("active"):o.classList.remove("active")})}destroy(){this.container&&(this.container.innerHTML="")}}function Pc(){const r=document.getElementById("canvas-container"),t=document.getElementById("ui-overlay"),e=new Rx(t);e.init();const n=new bx;e.updateScoreboard(n.getState()),window.addEventListener("error",i=>{console.error("Unhandled runtime error:",i.error||i.message),e.showError(i.message||"An unexpected error occurred.")});try{const i=new gx(r),s=new wx(i.scene);e.updateWindIndicator(s.getUIInfo());const o=new Ax({scene:i.scene,physics:i.physics});e.updateObstacleIndicator(o.enabled);const a=i.cricketBall?i.cricketBall.position:void 0,l=new vx(i.camera,i.renderer.domElement,i.scene,a);l.setObstacleManager(o);const c=new Sx({physics:i.physics,scene:i.scene,ui:e}),d=new yx({controls:l,physics:i.physics,ui:e,collisionManager:c,scoring:n,windManager:s,obstacleManager:o,sceneManager:i});l.setThrowingManager(d),Yi.applyDifficulty({sceneManager:i,physicsManager:i.physics,controlsManager:l,collisionManager:c,windManager:s,obstacleManager:o,ui:e},1),e.setupSpinControls({onDirectionChange:u=>{l.setSpinDirection(u)},onIntensityChange:u=>{l.setSpinIntensity(u)}}),e.updateSpinUI(l.spinDirection,l.spinIntensity),window.addEventListener("keydown",u=>{if(u.key==="7")s.setWind({forceX:0,label:"CALM",arrow:""}),i.physics.setWindForce(0),l.setWindAcceleration(0),e.updateWindIndicator(s.getUIInfo()),console.log("[Dev Test] Wind set to CALM (0N)");else if(u.key==="8")s.setWind({forceX:.14,label:"LIGHT",arrow:"→"}),i.physics.setWindForce(.14),l.setWindAcceleration(s.getAccelerationX()),e.updateWindIndicator(s.getUIInfo()),console.log("[Dev Test] Wind set to LIGHT → (+0.14N)");else if(u.key==="9")s.setWind({forceX:-.14,label:"LIGHT",arrow:"←"}),i.physics.setWindForce(-.14),l.setWindAcceleration(s.getAccelerationX()),e.updateWindIndicator(s.getUIInfo()),console.log("[Dev Test] Wind set to LIGHT ← (-0.14N)");else if(u.key==="0")s.setWind({forceX:.24,label:"MODERATE",arrow:"→"}),i.physics.setWindForce(.24),l.setWindAcceleration(s.getAccelerationX()),e.updateWindIndicator(s.getUIInfo()),console.log("[Dev Test] Wind set to MODERATE → (+0.24N)");else if(u.key==="o"||u.key==="O"){const h=!o.enabled;o.configure({enabled:h,speed:h?1:0}),e.updateObstacleIndicator(h),console.log(`[Dev Test] Obstacle toggled: ${h?"ACTIVE (1.0m/s)":"INACTIVE"}`)}else if(u.key==="1"||u.key==="j"||u.key==="J")l.setSpinDirection("LEFT"),e.updateSpinUI(l.spinDirection,l.spinIntensity);else if(u.key==="2"||u.key==="k"||u.key==="K")l.setSpinDirection("NONE"),e.updateSpinUI(l.spinDirection,l.spinIntensity);else if(u.key==="3"||u.key==="l"||u.key==="L")l.setSpinDirection("RIGHT"),e.updateSpinUI(l.spinDirection,l.spinIntensity);else if(u.key==="["){const h=Math.max(0,l.spinIntensity-.1);l.setSpinIntensity(h),e.updateSpinUI(l.spinDirection,l.spinIntensity)}else if(u.key==="]"){const h=Math.min(1,l.spinIntensity+.1);l.setSpinIntensity(h),e.updateSpinUI(l.spinDirection,l.spinIntensity)}else(u.key==="m"||u.key==="M"||u.key==="h"||u.key==="H")&&e&&typeof e.toggleSpinMenu=="function"&&e.toggleSpinMenu()}),i.start((u,h)=>{l.update(u),d.update(u),c.update(u),s.update(u,h),o.update(u),e&&typeof e.update=="function"&&e.update(u)}),console.log("Cricket Toss: 3D environment, aiming, throwing, collision, scoring, wind & obstacle systems initialized successfully.")}catch(i){console.error("Initialization failed:",i),e.showError(i.message||"Failed to initialize 3D scene.")}}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",Pc):Pc()})();
 
     </script>
   </body>
