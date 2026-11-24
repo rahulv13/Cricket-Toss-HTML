@@ -74,10 +74,13 @@ Because this repository consists of a single `index.html`, you can deploy it ins
 
 ### Features Included:
 - **3D Cricket Stadium**: Outdoor pitch, realistic creases, 3D seating bowl, boundary rope, advertising ribbon, and concourse jumbotron scoreboard.
-- **Realistic Cannon-es Physics**: Individual rigid bodies for 3 stumps and 2 bails with realistic wood collision audio synthesis and impact spark particles.
+- **Realistic Cannon-es Physics**: Individual rigid bodies for 3 stumps and 2 bails with kinematic-stabilized resting and dynamic impact physics.
+- **Reliable Hit Detection & Anti-Tunneling**: 180Hz physics substepping and continuous swept collision checking prevent ball tunneling at any speed.
+- **Automatic Wicket Reset**: Stumps and bails reset cleanly to upright positions after each hit attempt.
+- **Precision Trajectory Preview**: Symplectic Euler solver matching Cannon-es launch physics with exact horizontal, vertical, and diagonal aiming.
+- **Moving Obstacle Barrier (Round 3+)**: Patrolling 1.15m wooden practice barrier across the pitch with real-time deflection physics and audio synthesis.
 - **Scoring System**: 10 pts for 1 stump, 25 pts for 2 stumps, 50 pts for all 3 stumps, plus 20 bonus points for completing a round. Persistent high scores saved to `localStorage`.
 - **Wind Mechanics**: Directional horizontal breeze (Calm, Light, Moderate, Strong) that deflects the airborne ball and dynamically curves the trajectory preview.
-- **Moving Obstacles (Round 3+)**: Patrolling wooden hazard barrier across the pitch with real-time predictive collision detection and deflection physics.
 - **Mobile Responsive Design**: Dynamic camera framing adapted for both widescreen desktops and tall mobile smartphone screens (iPhone & Android).
 
 ---
